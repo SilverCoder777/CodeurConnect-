@@ -206,6 +206,7 @@ router.put(
   '/comment/:id/:comment_id',
   auth,
   checkObjectId('id'),
+  checkObjectId('comment_id'),
   check('text', 'Text is required').notEmpty(),
   async (req, res) => {
     const errors = validationResult(req);
@@ -252,7 +253,12 @@ router.put(
 // @route    DELETE api/posts/comment/:id/:comment_id
 // @desc     Delete comment
 // @access   Private
-router.delete('/comment/:id/:comment_id', auth, checkObjectId('id'), async (req, res) => {
+router.delete(
+  '/comment/:id/:comment_id',
+  auth,
+  checkObjectId('id'),
+  checkObjectId('comment_id'),
+  async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
 
