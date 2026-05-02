@@ -8,7 +8,8 @@ import {
   ADD_POST,
   GET_POST,
   ADD_COMMENT,
-  REMOVE_COMMENT
+  REMOVE_COMMENT,
+  UPDATE_COMMENT
 } from './types';
 
 /*
@@ -159,5 +160,26 @@ export const deleteComment = (postId, commentId) => async (dispatch) => {
       type: POST_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status }
     });
+  }
+};
+
+// Update comment
+export const updateComment = (postId, commentId, formData) => async (dispatch) => {
+  try {
+    const res = await api.put(`/posts/comment/${postId}/${commentId}`, formData);
+
+    dispatch({
+      type: UPDATE_COMMENT,
+      payload: res.data
+    });
+
+    dispatch(setAlert('Comment Updated', 'success'));
+    return true;
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+    throw err;
   }
 };
