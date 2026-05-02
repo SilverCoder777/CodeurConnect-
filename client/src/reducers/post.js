@@ -6,7 +6,8 @@ import {
   ADD_POST,
   GET_POST,
   ADD_COMMENT,
-  REMOVE_COMMENT
+  REMOVE_COMMENT,
+  UPDATE_COMMENT
 } from '../actions/types';
 
 const initialState = {
@@ -73,6 +74,12 @@ function postReducer(state = initialState, action) {
             (comment) => comment._id !== payload
           )
         },
+        loading: false
+      };
+    case UPDATE_COMMENT:
+      return {
+        ...state,
+        post: { ...state.post, comments: payload },
         loading: false
       };
     default:
