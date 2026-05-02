@@ -15,11 +15,15 @@ const CommentItem = ({
   const [isEditing, setIsEditing] = useState(false);
   const [editText, setEditText] = useState(text);
 
-  const handleUpdate = (e) => {
+  const handleUpdate = async (e) => {
     e.preventDefault();
     if (editText.trim()) {
-      updateComment(postId, _id, { text: editText });
-      setIsEditing(false);
+      try {
+        await updateComment(postId, _id, { text: editText });
+        setIsEditing(false);
+      } catch (err) {
+        // 失败时保持编辑框打开，错误已在 action 中处理
+      }
     }
   };
 

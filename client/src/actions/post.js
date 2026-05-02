@@ -174,10 +174,12 @@ export const updateComment = (postId, commentId, formData) => async (dispatch) =
     });
 
     dispatch(setAlert('Comment Updated', 'success'));
+    return true;
   } catch (err) {
     dispatch({
       type: POST_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status }
     });
+    throw err;
   }
 };
