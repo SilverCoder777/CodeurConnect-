@@ -72,6 +72,43 @@ router.get('/:id', auth, checkObjectId('id'), async (req, res) => {
   }
 });
 
+// @route    PUT api/posts/:id
+// @desc     Update a post
+// @access   Private
+router.put(
+  '/:id',
+  auth,
+  checkObjectId('id'),
+  check('text', 'Text is required').notEmpty(),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+      const post = await Post.findById(req.params.id);
+
+      if (!post) {
+        return res.status(404).json({ msg: 'Post not found' });
+      }
+
+      // Check user
+      if (post.user.toString() !== req.user.id) {
+        return res.status(401).json({ msg: 'User not authorized' });
+      }
+
+      post.text = req.body.text;
+      await post.save();
+
+      res.json(post);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  }
+);
+
 // @route    DELETE api/posts/:id
 // @desc     Delete a post
 // @access   Private
