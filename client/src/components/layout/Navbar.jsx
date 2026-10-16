@@ -17,7 +17,7 @@ export default function Navbar() {
   return (
     <header className="site-header">
       <a className="skip-link" href="#main-content">Aller au contenu principal</a>
-      <nav className="navbar" aria-label="Navigation principale">
+      <nav className={`navbar ${isAuthenticated ? 'navbar-authenticated' : ''}`} aria-label="Navigation principale">
         <Link to={isAuthenticated ? '/posts' : '/'} className="brand" aria-label="DevConnector — Accueil">
           <span className="brand-mark"><Icon name="code" size={27} /></span>
           <span className="brand-name">Dev<span>Connector</span></span>
@@ -30,6 +30,7 @@ export default function Navbar() {
           {isAuthenticated && <li><NavLink to="/posts"><Icon name="home" /><span>Publications</span></NavLink></li>}
           <li><NavLink to="/profiles"><Icon name="users" /><span>Développeurs</span></NavLink></li>
           {isAuthenticated ? <>
+            <li><NavLink to="/snake"><Icon name="game" /><span>Serpent</span></NavLink></li>
             <li><NavLink to="/dashboard" aria-label="Tableau de bord"><Avatar src={user?.avatar} name={user?.name} /><span>Vous</span></NavLink></li>
             <li className="nav-divider"><button type="button" onClick={() => dispatch(logout())}><Icon name="logout" /><span>Se déconnecter</span></button></li>
           </> : <>

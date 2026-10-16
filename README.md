@@ -56,6 +56,19 @@ pour démarrer chaque composant séparément.
 
 L’ancien paramètre `NODE_OPTIONS=--openssl-legacy-provider` n’est plus nécessaire.
 
+## Jeu du serpent
+
+Une fois connecté, ouvrez **Serpent** dans la barre de navigation ou **Une pause jeu**
+dans les raccourcis de votre espace. La page `/snake` est réservée aux membres connectés.
+
+- Cliquez sur **Commencer**, ou activez le plateau et appuyez sur **Entrée**.
+- Utilisez les flèches du clavier, **ZQSD**, ou les boutons tactiles sur mobile.
+- Chaque fruit rapporte 10 points. Évitez les murs et le corps du serpent.
+- **Espace** permet de mettre en pause ou de reprendre la partie. Le jeu se met
+  automatiquement en pause lorsque vous quittez l’onglet ou la fenêtre.
+- Choisissez une vitesse avant de jouer ou pendant la pause.
+- Votre record est conservé dans le navigateur, sur cet appareil, pour votre compte.
+
 ## Production
 
 ```sh
@@ -88,6 +101,9 @@ mentions « J’aime », les commentaires et la suppression de compte.
 Chaque exécution supprime uniquement sa propre base de test. La variable
 `MONGO_TEST_URI` permet de choisir un autre serveur MongoDB ; les tests remplacent
 toujours le nom de la base par un nom de test unique et conservent les options de l’URI.
+
+La commande `npm test` vérifie également le moteur du jeu du serpent : déplacements,
+changements de direction, collisions, croissance, nourriture et victoire.
 
 Pour lancer les tests dans un navigateur réel :
 
