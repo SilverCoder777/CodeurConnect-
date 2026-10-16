@@ -3,6 +3,7 @@ import { Link, useMatch, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createProfile, getCurrentProfile } from '../../actions/profile';
+import { professionalStatuses } from '../../utils/profileStatus';
 
 /*
   NOTE: declare initialState outside of component
@@ -88,101 +89,96 @@ const ProfileForm = ({
   return (
     <section className="container">
       <h1 className="large text-primary">
-        {creatingProfile ? 'Create Your Profile' : 'Edit Your Profile'}
+        {creatingProfile ? 'Créer votre profil' : 'Modifier votre profil'}
       </h1>
       <p className="lead">
         <i className="fas fa-user" />
         {creatingProfile
-          ? ` Let's get some information to make your`
-          : ' Add some changes to your profile'}
+          ? ` Renseignez les informations de votre profil`
+          : ' Mettez à jour les informations de votre profil'}
       </p>
-      <small>* = required field</small>
+      <small>* = champ obligatoire</small>
       <form className="form" onSubmit={onSubmit}>
         <div className="form-group">
           <select name="status" value={status} onChange={onChange}>
-            <option>* Select Professional Status</option>
-            <option value="Developer">Developer</option>
-            <option value="Junior Developer">Junior Developer</option>
-            <option value="Senior Developer">Senior Developer</option>
-            <option value="Manager">Manager</option>
-            <option value="Student or Learning">Student or Learning</option>
-            <option value="Instructor">Instructor or Teacher</option>
-            <option value="Intern">Intern</option>
-            <option value="Other">Other</option>
+            <option value="">* Sélectionnez votre statut professionnel</option>
+            {Object.entries(professionalStatuses).map(([value, label]) => (
+              <option key={value} value={value}>{label}</option>
+            ))}
           </select>
           <small className="form-text">
-            Give us an idea of where you are at in your career
+            Indiquez votre situation professionnelle actuelle
           </small>
         </div>
         <div className="form-group">
           <input
             type="text"
-            placeholder="Company"
+            placeholder="Entreprise"
             name="company"
             value={company}
             onChange={onChange}
           />
           <small className="form-text">
-            Could be your own company or one you work for
+            Votre entreprise ou celle pour laquelle vous travaillez
           </small>
         </div>
         <div className="form-group">
           <input
             type="text"
-            placeholder="Website"
+            placeholder="Site web"
             name="website"
             value={website}
             onChange={onChange}
           />
           <small className="form-text">
-            Could be your own or a company website
+            Votre site personnel ou celui de votre entreprise
           </small>
         </div>
         <div className="form-group">
           <input
             type="text"
-            placeholder="Location"
+            placeholder="Localisation"
             name="location"
             value={location}
             onChange={onChange}
           />
           <small className="form-text">
-            City & state suggested (eg. Boston, MA)
+            Indiquez votre ville et votre région (ex. : Lyon, Auvergne-Rhône-Alpes)
           </small>
         </div>
         <div className="form-group">
           <input
             type="text"
-            placeholder="* Skills"
+            placeholder="* Compétences"
             name="skills"
             value={skills}
             onChange={onChange}
           />
           <small className="form-text">
-            Please use comma separated values (eg. HTML,CSS,JavaScript,PHP)
+            Séparez les compétences par des virgules (ex. : HTML, CSS, JavaScript, PHP)
           </small>
         </div>
         <div className="form-group">
           <input
             type="text"
-            placeholder="Github Username"
+            placeholder="Nom d’utilisateur GitHub"
             name="githubusername"
             value={githubusername}
             onChange={onChange}
           />
           <small className="form-text">
-            If you want your latest repos and a Github link, include your
-            username
+            Indiquez votre nom d’utilisateur GitHub pour afficher vos derniers dépôts
+            et un lien vers votre profil
           </small>
         </div>
         <div className="form-group">
           <textarea
-            placeholder="A short bio of yourself"
+            placeholder="Une courte présentation de vous"
             name="bio"
             value={bio}
             onChange={onChange}
           />
-          <small className="form-text">Tell us a little about yourself</small>
+          <small className="form-text">Présentez-vous en quelques mots</small>
         </div>
 
         <div className="my-2">
@@ -191,9 +187,9 @@ const ProfileForm = ({
             type="button"
             className="btn btn-light"
           >
-            Add Social Network Links
+            Ajouter des liens vers vos réseaux sociaux
           </button>
-          <span>Optional</span>
+          <span>Facultatif</span>
         </div>
 
         {displaySocialInputs && (
@@ -202,7 +198,7 @@ const ProfileForm = ({
               <i className="fab fa-twitter fa-2x" />
               <input
                 type="text"
-                placeholder="Twitter URL"
+                placeholder="Lien Twitter"
                 name="twitter"
                 value={twitter}
                 onChange={onChange}
@@ -213,7 +209,7 @@ const ProfileForm = ({
               <i className="fab fa-facebook fa-2x" />
               <input
                 type="text"
-                placeholder="Facebook URL"
+                placeholder="Lien Facebook"
                 name="facebook"
                 value={facebook}
                 onChange={onChange}
@@ -224,7 +220,7 @@ const ProfileForm = ({
               <i className="fab fa-youtube fa-2x" />
               <input
                 type="text"
-                placeholder="YouTube URL"
+                placeholder="Lien YouTube"
                 name="youtube"
                 value={youtube}
                 onChange={onChange}
@@ -235,7 +231,7 @@ const ProfileForm = ({
               <i className="fab fa-linkedin fa-2x" />
               <input
                 type="text"
-                placeholder="Linkedin URL"
+                placeholder="Lien LinkedIn"
                 name="linkedin"
                 value={linkedin}
                 onChange={onChange}
@@ -246,7 +242,7 @@ const ProfileForm = ({
               <i className="fab fa-instagram fa-2x" />
               <input
                 type="text"
-                placeholder="Instagram URL"
+                placeholder="Lien Instagram"
                 name="instagram"
                 value={instagram}
                 onChange={onChange}
@@ -255,9 +251,9 @@ const ProfileForm = ({
           </Fragment>
         )}
 
-        <input type="submit" className="btn btn-primary my-1" />
+        <input type="submit" className="btn btn-primary my-1" value="Enregistrer" />
         <Link className="btn btn-light my-1" to="/dashboard">
-          Go Back
+          Retour
         </Link>
       </form>
     </section>

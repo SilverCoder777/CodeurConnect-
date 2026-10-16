@@ -20,10 +20,11 @@ const CommentItem = ({
     </div>
     <div>
       <p className="my-1">{text}</p>
-      <p className="post-date">Posted on {formatDate(date)}</p>
+      <p className="post-date">Publié le {formatDate(date)}</p>
       {!auth.loading && user === auth.user._id && (
         <button
           onClick={() => deleteComment(postId, _id)}
+          aria-label="Supprimer le commentaire"
           type="button"
           className="btn btn-danger"
         >

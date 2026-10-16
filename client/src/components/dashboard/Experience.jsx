@@ -10,14 +10,14 @@ const Experience = ({ experience, deleteExperience }) => {
       <td>{exp.company}</td>
       <td className="hide-sm">{exp.title}</td>
       <td>
-        {formatDate(exp.from)} - {exp.to ? formatDate(exp.to) : 'Now'}
+        {formatDate(exp.from)} - {exp.to ? formatDate(exp.to) : 'Aujourd’hui'}
       </td>
       <td>
         <button
           onClick={() => deleteExperience(exp._id)}
           className="btn btn-danger"
         >
-          Delete
+          Supprimer
         </button>
       </td>
     </tr>
@@ -25,13 +25,13 @@ const Experience = ({ experience, deleteExperience }) => {
 
   return (
     <Fragment>
-      <h2 className="my-2">Experience Credentials</h2>
+      <h2 className="my-2">Expériences professionnelles</h2>
       <table className="table">
         <thead>
           <tr>
-            <th>Company</th>
-            <th className="hide-sm">Title</th>
-            <th className="hide-sm">Years</th>
+            <th>Entreprise</th>
+            <th className="hide-sm">Poste</th>
+            <th className="hide-sm">Période</th>
             <th />
           </tr>
         </thead>

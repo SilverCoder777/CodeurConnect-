@@ -22,13 +22,13 @@ router.get('/me', auth, async (req, res) => {
     }).populate('user', ['name', 'avatar']);
 
     if (!profile) {
-      return res.status(400).json({ msg: 'There is no profile for this user' });
+      return res.status(400).json({ msg: 'Aucun profil n’a encore été créé pour ce compte' });
     }
 
     res.json(profile);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    res.status(500).send('Une erreur interne est survenue. Veuillez réessayer.');
   }
 });
 
@@ -38,8 +38,8 @@ router.get('/me', auth, async (req, res) => {
 router.post(
   '/',
   auth,
-  check('status', 'Status is required').notEmpty(),
-  check('skills', 'Skills is required').notEmpty(),
+  check('status', 'Le statut professionnel est obligatoire').notEmpty(),
+  check('skills', 'Les compétences sont obligatoires').notEmpty(),
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -93,7 +93,7 @@ router.post(
       return res.json(profile);
     } catch (err) {
       console.error(err.message);
-      return res.status(500).send('Server Error');
+      return res.status(500).send('Une erreur interne est survenue. Veuillez réessayer.');
     }
   }
 );
@@ -107,7 +107,7 @@ router.get('/', async (req, res) => {
     res.json(profiles);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    res.status(500).send('Une erreur interne est survenue. Veuillez réessayer.');
   }
 });
 
@@ -123,12 +123,12 @@ router.get(
         user: user_id
       }).populate('user', ['name', 'avatar']);
 
-      if (!profile) return res.status(400).json({ msg: 'Profile not found' });
+      if (!profile) return res.status(400).json({ msg: 'Profil introuvable' });
 
       return res.json(profile);
     } catch (err) {
       console.error(err.message);
-      return res.status(500).json({ msg: 'Server error' });
+      return res.status(500).json({ msg: 'Une erreur interne est survenue. Veuillez réessayer.' });
     }
   }
 );
@@ -147,10 +147,10 @@ router.delete('/', auth, async (req, res) => {
       User.findOneAndDelete({ _id: req.user.id })
     ]);
 
-    res.json({ msg: 'User deleted' });
+    res.json({ msg: 'Compte supprimé' });
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    res.status(500).send('Une erreur interne est survenue. Veuillez réessayer.');
   }
 });
 
@@ -160,9 +160,9 @@ router.delete('/', auth, async (req, res) => {
 router.put(
   '/experience',
   auth,
-  check('title', 'Title is required').notEmpty(),
-  check('company', 'Company is required').notEmpty(),
-  check('from', 'From date is required and needs to be from the past')
+  check('title', 'Le poste est obligatoire').notEmpty(),
+  check('company', 'L’entreprise est obligatoire').notEmpty(),
+  check('from', 'La date de début est obligatoire et doit précéder la date de fin')
     .notEmpty()
     .custom((value, { req }) => (req.body.to ? value < req.body.to : true)),
   async (req, res) => {
@@ -181,7 +181,7 @@ router.put(
       res.json(profile);
     } catch (err) {
       console.error(err.message);
-      res.status(500).send('Server Error');
+      res.status(500).send('Une erreur interne est survenue. Veuillez réessayer.');
     }
   }
 );
@@ -202,7 +202,7 @@ router.delete('/experience/:exp_id', auth, async (req, res) => {
     return res.status(200).json(foundProfile);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ msg: 'Server error' });
+    return res.status(500).json({ msg: 'Une erreur interne est survenue. Veuillez réessayer.' });
   }
 });
 
@@ -212,10 +212,10 @@ router.delete('/experience/:exp_id', auth, async (req, res) => {
 router.put(
   '/education',
   auth,
-  check('school', 'School is required').notEmpty(),
-  check('degree', 'Degree is required').notEmpty(),
-  check('fieldofstudy', 'Field of study is required').notEmpty(),
-  check('from', 'From date is required and needs to be from the past')
+  check('school', 'L’établissement est obligatoire').notEmpty(),
+  check('degree', 'Le diplôme est obligatoire').notEmpty(),
+  check('fieldofstudy', 'Le domaine d’études est obligatoire').notEmpty(),
+  check('from', 'La date de début est obligatoire et doit précéder la date de fin')
     .notEmpty()
     .custom((value, { req }) => (req.body.to ? value < req.body.to : true)),
   async (req, res) => {
@@ -234,7 +234,7 @@ router.put(
       res.json(profile);
     } catch (err) {
       console.error(err.message);
-      res.status(500).send('Server Error');
+      res.status(500).send('Une erreur interne est survenue. Veuillez réessayer.');
     }
   }
 );
@@ -253,7 +253,7 @@ router.delete('/education/:edu_id', auth, async (req, res) => {
     return res.status(200).json(foundProfile);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ msg: 'Server error' });
+    return res.status(500).json({ msg: 'Une erreur interne est survenue. Veuillez réessayer.' });
   }
 });
 
@@ -274,7 +274,7 @@ router.get('/github/:username', async (req, res) => {
     return res.json(gitHubResponse.data);
   } catch (err) {
     console.error(err.message);
-    return res.status(404).json({ msg: 'No Github profile found' });
+    return res.status(404).json({ msg: 'Profil GitHub introuvable' });
   }
 });
 

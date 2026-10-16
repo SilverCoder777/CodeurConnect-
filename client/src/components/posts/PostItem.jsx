@@ -21,10 +21,11 @@ const PostItem = ({
     </div>
     <div>
       <p className="my-1">{text}</p>
-      <p className="post-date">Posted on {formatDate(date)}</p>
+      <p className="post-date">Publié le {formatDate(date)}</p>
 
       <button
         onClick={() => addLike(_id)}
+        aria-label="J’aime cette publication"
         type="button"
         className="btn btn-light"
       >
@@ -33,6 +34,7 @@ const PostItem = ({
       </button>
       <button
         onClick={() => removeLike(_id)}
+        aria-label="Retirer la mention J’aime"
         type="button"
         className="btn btn-light"
       >
@@ -47,6 +49,7 @@ const PostItem = ({
       {!auth.loading && user === auth.user._id && (
         <button
           onClick={() => deletePost(_id)}
+          aria-label="Supprimer la publication"
           type="button"
           className="btn btn-danger"
         >

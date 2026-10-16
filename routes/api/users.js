@@ -14,11 +14,11 @@ const User = require('../../models/User');
 // @access   Public
 router.post(
   '/',
-  check('name', 'Name is required').notEmpty(),
-  check('email', 'Please include a valid email').isEmail(),
+  check('name', 'Le nom est obligatoire').notEmpty(),
+  check('email', 'Veuillez saisir une adresse e-mail valide').isEmail(),
   check(
     'password',
-    'Please enter a password with 6 or more characters'
+    'Le mot de passe doit contenir au moins 6 caractères'
   ).isLength({ min: 6 }),
   async (req, res) => {
     const errors = validationResult(req);
@@ -34,7 +34,7 @@ router.post(
       if (user) {
         return res
           .status(400)
-          .json({ errors: [{ msg: 'User already exists' }] });
+          .json({ errors: [{ msg: 'Un compte utilise déjà cette adresse e-mail' }] });
       }
 
       const avatar = normalize(
@@ -76,7 +76,7 @@ router.post(
       );
     } catch (err) {
       console.error(err.message);
-      res.status(500).send('Server error');
+      res.status(500).send('Une erreur interne est survenue. Veuillez réessayer.');
     }
   }
 );

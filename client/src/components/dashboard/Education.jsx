@@ -10,14 +10,14 @@ const Education = ({ education, deleteEducation }) => {
       <td>{edu.school}</td>
       <td className="hide-sm">{edu.degree}</td>
       <td>
-        {formatDate(edu.from)} - {edu.to ? formatDate(edu.to) : 'Now'}
+        {formatDate(edu.from)} - {edu.to ? formatDate(edu.to) : 'Aujourd’hui'}
       </td>
       <td>
         <button
           onClick={() => deleteEducation(edu._id)}
           className="btn btn-danger"
         >
-          Delete
+          Supprimer
         </button>
       </td>
     </tr>
@@ -25,13 +25,13 @@ const Education = ({ education, deleteEducation }) => {
 
   return (
     <Fragment>
-      <h2 className="my-2">Education Credentials</h2>
+      <h2 className="my-2">Formations et diplômes</h2>
       <table className="table">
         <thead>
           <tr>
-            <th>School</th>
-            <th className="hide-sm">Degree</th>
-            <th className="hide-sm">Years</th>
+            <th>Établissement</th>
+            <th className="hide-sm">Diplôme</th>
+            <th className="hide-sm">Période</th>
             <th />
           </tr>
         </thead>

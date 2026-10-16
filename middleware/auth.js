@@ -7,14 +7,14 @@ module.exports = function (req, res, next) {
 
   // Check if not token
   if (!token) {
-    return res.status(401).json({ msg: 'No token, authorization denied' });
+    return res.status(401).json({ msg: 'Veuillez vous connecter pour accéder à cette ressource' });
   }
 
   // Verify token
   try {
     jwt.verify(token, config.get('jwtSecret'), (error, decoded) => {
       if (error) {
-        return res.status(401).json({ msg: 'Token is not valid' });
+        return res.status(401).json({ msg: 'Votre session est invalide ou a expiré. Veuillez vous reconnecter.' });
       } else {
         req.user = decoded.user;
         next();
@@ -22,6 +22,6 @@ module.exports = function (req, res, next) {
     });
   } catch (err) {
     console.error('something wrong with auth middleware');
-    res.status(500).json({ msg: 'Server Error' });
+    res.status(500).json({ msg: 'Une erreur interne est survenue. Veuillez réessayer.' });
   }
 };

@@ -13,7 +13,7 @@ const checkObjectId = require('../../middleware/checkObjectId');
 router.post(
   '/',
   auth,
-  check('text', 'Text is required').notEmpty(),
+  check('text', 'Le texte est obligatoire').notEmpty(),
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -35,7 +35,7 @@ router.post(
       res.json(post);
     } catch (err) {
       console.error(err.message);
-      res.status(500).send('Server Error');
+      res.status(500).send('Une erreur interne est survenue. Veuillez réessayer.');
     }
   }
 );
@@ -49,7 +49,7 @@ router.get('/', auth, async (req, res) => {
     res.json(posts);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    res.status(500).send('Une erreur interne est survenue. Veuillez réessayer.');
   }
 });
 
@@ -61,14 +61,14 @@ router.get('/:id', auth, checkObjectId('id'), async (req, res) => {
     const post = await Post.findById(req.params.id);
 
     if (!post) {
-      return res.status(404).json({ msg: 'Post not found' });
+      return res.status(404).json({ msg: 'Publication introuvable' });
     }
 
     res.json(post);
   } catch (err) {
     console.error(err.message);
 
-    res.status(500).send('Server Error');
+    res.status(500).send('Une erreur interne est survenue. Veuillez réessayer.');
   }
 });
 
@@ -80,21 +80,21 @@ router.delete('/:id', [auth, checkObjectId('id')], async (req, res) => {
     const post = await Post.findById(req.params.id);
 
     if (!post) {
-      return res.status(404).json({ msg: 'Post not found' });
+      return res.status(404).json({ msg: 'Publication introuvable' });
     }
 
     // Check user
     if (post.user.toString() !== req.user.id) {
-      return res.status(401).json({ msg: 'User not authorized' });
+      return res.status(401).json({ msg: 'Vous n’êtes pas autorisé à effectuer cette action' });
     }
 
     await post.deleteOne();
 
-    res.json({ msg: 'Post removed' });
+    res.json({ msg: 'Publication supprimée' });
   } catch (err) {
     console.error(err.message);
 
-    res.status(500).send('Server Error');
+    res.status(500).send('Une erreur interne est survenue. Veuillez réessayer.');
   }
 });
 
@@ -107,7 +107,7 @@ router.put('/like/:id', auth, checkObjectId('id'), async (req, res) => {
 
     // Check if the post has already been liked
     if (post.likes.some((like) => like.user.toString() === req.user.id)) {
-      return res.status(400).json({ msg: 'Post already liked' });
+      return res.status(400).json({ msg: 'Vous aimez déjà cette publication' });
     }
 
     post.likes.unshift({ user: req.user.id });
@@ -117,7 +117,7 @@ router.put('/like/:id', auth, checkObjectId('id'), async (req, res) => {
     return res.json(post.likes);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    res.status(500).send('Une erreur interne est survenue. Veuillez réessayer.');
   }
 });
 
@@ -130,7 +130,7 @@ router.put('/unlike/:id', auth, checkObjectId('id'), async (req, res) => {
 
     // Check if the post has not yet been liked
     if (!post.likes.some((like) => like.user.toString() === req.user.id)) {
-      return res.status(400).json({ msg: 'Post has not yet been liked' });
+      return res.status(400).json({ msg: 'Vous n’aimez pas encore cette publication' });
     }
 
     // remove the like
@@ -143,7 +143,7 @@ router.put('/unlike/:id', auth, checkObjectId('id'), async (req, res) => {
     return res.json(post.likes);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    res.status(500).send('Une erreur interne est survenue. Veuillez réessayer.');
   }
 });
 
@@ -154,7 +154,7 @@ router.post(
   '/comment/:id',
   auth,
   checkObjectId('id'),
-  check('text', 'Text is required').notEmpty(),
+  check('text', 'Le texte est obligatoire').notEmpty(),
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -179,7 +179,7 @@ router.post(
       res.json(post.comments);
     } catch (err) {
       console.error(err.message);
-      res.status(500).send('Server Error');
+      res.status(500).send('Une erreur interne est survenue. Veuillez réessayer.');
     }
   }
 );
@@ -197,11 +197,11 @@ router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
     );
     // Make sure comment exists
     if (!comment) {
-      return res.status(404).json({ msg: 'Comment does not exist' });
+      return res.status(404).json({ msg: 'Commentaire introuvable' });
     }
     // Check user
     if (comment.user.toString() !== req.user.id) {
-      return res.status(401).json({ msg: 'User not authorized' });
+      return res.status(401).json({ msg: 'Vous n’êtes pas autorisé à effectuer cette action' });
     }
 
     post.comments = post.comments.filter(
@@ -213,7 +213,7 @@ router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
     return res.json(post.comments);
   } catch (err) {
     console.error(err.message);
-    return res.status(500).send('Server Error');
+    return res.status(500).send('Une erreur interne est survenue. Veuillez réessayer.');
   }
 });
 

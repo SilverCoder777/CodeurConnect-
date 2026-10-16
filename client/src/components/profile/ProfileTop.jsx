@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { formatProfileStatus } from '../../utils/profileStatus';
 
 const ProfileTop = ({
   profile: {
@@ -16,12 +17,12 @@ const ProfileTop = ({
       <img className="round-img my-1" src={avatar} alt="" />
       <h1 className="large">{name}</h1>
       <p className="lead">
-        {status} {company ? <span> at {company}</span> : null}
+        {formatProfileStatus(status)} {company ? <span> chez {company}</span> : null}
       </p>
       <p>{location ? <span>{location}</span> : null}</p>
       <div className="icons my-1">
         {website ? (
-          <a href={website} target="_blank" rel="noopener noreferrer">
+          <a href={website} target="_blank" rel="noopener noreferrer" aria-label="Site web">
             <i className="fas fa-globe fa-2x" />
           </a>
         ) : null}
@@ -32,6 +33,7 @@ const ProfileTop = ({
                 <a
                   key={key}
                   href={value}
+                  aria-label={`Profil ${key}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >

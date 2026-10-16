@@ -21,7 +21,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
   const onSubmit = async (e) => {
     e.preventDefault();
     if (password !== password2) {
-      setAlert('Passwords do not match', 'danger');
+      setAlert('Les mots de passe ne correspondent pas', 'danger');
     } else {
       register({ name, email, password });
     }
@@ -33,15 +33,15 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
 
   return (
     <section className="container">
-      <h1 className="large text-primary">Sign Up</h1>
+      <h1 className="large text-primary">Inscription</h1>
       <p className="lead">
-        <i className="fas fa-user" /> Create Your Account
+        <i className="fas fa-user" /> Créez votre compte
       </p>
       <form className="form" onSubmit={onSubmit}>
         <div className="form-group">
           <input
             type="text"
-            placeholder="Name"
+            placeholder="Nom"
             name="name"
             value={name}
             onChange={onChange}
@@ -50,20 +50,20 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
         <div className="form-group">
           <input
             type="email"
-            placeholder="Email Address"
+            placeholder="Adresse e-mail"
             name="email"
             value={email}
             onChange={onChange}
           />
           <small className="form-text">
-            This site uses Gravatar so if you want a profile image, use a
-            Gravatar email
+            Pour afficher votre photo de profil, utilisez une adresse e-mail
+            associée à un compte Gravatar
           </small>
         </div>
         <div className="form-group">
           <input
             type="password"
-            placeholder="Password"
+            placeholder="Mot de passe"
             name="password"
             value={password}
             onChange={onChange}
@@ -72,16 +72,16 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
         <div className="form-group">
           <input
             type="password"
-            placeholder="Confirm Password"
+            placeholder="Confirmer le mot de passe"
             name="password2"
             value={password2}
             onChange={onChange}
           />
         </div>
-        <input type="submit" className="btn btn-primary" value="Register" />
+        <input type="submit" className="btn btn-primary" value="S’inscrire" />
       </form>
       <p className="my-1">
-        Already have an account? <Link to="/login">Sign In</Link>
+        Vous avez déjà un compte ? <Link to="/login">Connexion</Link>
       </p>
     </section>
   );

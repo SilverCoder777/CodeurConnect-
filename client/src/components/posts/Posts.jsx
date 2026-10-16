@@ -12,9 +12,9 @@ const Posts = ({ getPosts, post: { posts } }) => {
 
   return (
     <section className="container">
-      <h1 className="large text-primary">Posts</h1>
+      <h1 className="large text-primary">Publications</h1>
       <p className="lead">
-        <i className="fas fa-user" /> Welcome to the community
+        <i className="fas fa-user" /> Bienvenue dans la communauté
       </p>
       <PostForm />
       <div className="posts">

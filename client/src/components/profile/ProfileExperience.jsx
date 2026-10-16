@@ -8,16 +8,16 @@ const ProfileExperience = ({
   <div>
     <h3 className="text-dark">{company}</h3>
     <p>
-      {formatDate(from)} - {to ? formatDate(to) : 'Now'}
+      {formatDate(from)} - {to ? formatDate(to) : 'Aujourd’hui'}
     </p>
     <p>
-      <strong>Position: </strong> {title}
+      <strong>Poste : </strong> {title}
     </p>
     <p>
-      <strong>Location: </strong> {location}
+      <strong>Localisation : </strong> {location}
     </p>
     <p>
-      <strong>Description: </strong> {description}
+      <strong>Description : </strong> {description}
     </p>
   </div>
 );

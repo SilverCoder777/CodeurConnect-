@@ -19,9 +19,9 @@ const Dashboard = ({
 
   return (
     <section className="container">
-      <h1 className="large text-primary">Dashboard</h1>
+      <h1 className="large text-primary">Tableau de bord</h1>
       <p className="lead">
-        <i className="fas fa-user" /> Welcome {user && user.name}
+        <i className="fas fa-user" /> Bienvenue {user && user.name}
       </p>
       {profile !== null ? (
         <>
@@ -31,15 +31,15 @@ const Dashboard = ({
 
           <div className="my-2">
             <button className="btn btn-danger" onClick={() => deleteAccount()}>
-              <i className="fas fa-user-minus" /> Delete My Account
+              <i className="fas fa-user-minus" /> Supprimer mon compte
             </button>
           </div>
         </>
       ) : (
         <>
-          <p>You have not yet setup a profile, please add some info</p>
+          <p>Vous n’avez pas encore de profil. Ajoutez quelques informations pour commencer.</p>
           <Link to="/create-profile" className="btn btn-primary my-1">
-            Create Profile
+            Créer mon profil
           </Link>
         </>
       )}

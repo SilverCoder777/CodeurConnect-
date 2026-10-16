@@ -24,6 +24,7 @@ test('production serves the SPA root, deep links and compiled JavaScript', async
     const response = await fetch(app.url + path);
     assert.equal(response.status, 200);
     const html = await response.text();
+    assert.match(html, /<html lang="fr">/);
     assert.match(html, /<div id="root"><\/div>/);
     const script = html.match(/<script[^>]+src="([^"]+)"/);
     assert.ok(script, 'production entry script exists');
@@ -35,13 +36,20 @@ test('production serves the SPA root, deep links and compiled JavaScript', async
 });
 
 test('validation and authentication reject invalid requests', async () => {
-  await request('GET', '/auth', undefined, undefined, 401);
-  await request('GET', '/auth', undefined, 'invalid-token', 401);
+  assert.equal((await request('GET', '/auth', undefined, undefined, 401)).msg,
+    'Veuillez vous connecter pour accéder à cette ressource');
+  assert.equal((await request('GET', '/auth', undefined, 'invalid-token', 401)).msg,
+    'Votre session est invalide ou a expiré. Veuillez vous reconnecter.');
   const result = await request('POST', '/users', {}, undefined, 400);
   assert.equal(result.errors.length, 3);
-  assert.ok(result.errors.every((error) => error.msg));
+  assert.deepEqual(result.errors.map((error) => error.msg), [
+    'Le nom est obligatoire',
+    'Veuillez saisir une adresse e-mail valide',
+    'Le mot de passe doit contenir au moins 6 caractères'
+  ]);
   await request('POST', '/auth', {}, undefined, 400);
-  await request('GET', '/profile/user/not-an-id', undefined, undefined, 400);
+  assert.equal((await request('GET', '/profile/user/not-an-id', undefined, undefined, 400)).msg,
+    'Identifiant invalide');
 });
 
 test('registration, login, profile and post lifecycle work with updated dependencies', async () => {

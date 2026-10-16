@@ -10,7 +10,7 @@ const ProfileGithub = ({ username, getGithubRepos, repos }) => {
 
   return (
     <div className="profile-github">
-      <h2 className="text-primary my-1">Github Repos</h2>
+      <h2 className="text-primary my-1">Dépôts GitHub</h2>
       {repos.map(repo => (
         <div key={repo.id} className="repo bg-white p-1 my-1">
           <div>
@@ -24,12 +24,12 @@ const ProfileGithub = ({ username, getGithubRepos, repos }) => {
           <div>
             <ul>
               <li className="badge badge-primary">
-                Stars: {repo.stargazers_count}
+                Étoiles : {repo.stargazers_count}
               </li>
               <li className="badge badge-dark">
-                Watchers: {repo.watchers_count}
+                Abonnés : {repo.watchers_count}
               </li>
-              <li className="badge badge-light">Forks: {repo.forks_count}</li>
+              <li className="badge badge-light">Dépôts dérivés : {repo.forks_count}</li>
             </ul>
           </div>
         </div>
