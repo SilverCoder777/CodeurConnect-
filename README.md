@@ -1,59 +1,60 @@
 # DevConnector 2.0
 
-A social network for developers built with React, Redux, Express and MongoDB.
-Based on Brad Traversy's MERN Stack Front To Back course.
+Un réseau social pour les développeurs, réalisé avec React, Redux, Express et MongoDB.
+Basé sur le cours « MERN Stack Front To Back » de Brad Traversy.
 
-## Requirements
+## Prérequis
 
-- Node.js 24 or later (`.nvmrc` records the validated version).
-- npm and MongoDB. Development was verified with Node 24.19.0, npm 11.9.0 and MongoDB 7.
-- Chromium for the optional browser test suite.
+- Node.js 24 ou une version ultérieure (`.nvmrc` indique la version validée).
+- npm et MongoDB. Le fonctionnement en développement a été vérifié avec Node 24.19.0, npm 11.9.0 et MongoDB 7.
+- Chromium pour les tests facultatifs dans un navigateur.
 
-## Setup
+## Installation
 
-Install the server and client separately using the committed lockfiles:
+Installez séparément le serveur et le client à partir des fichiers de verrouillage présents dans le dépôt :
 
 ```sh
 npm ci
 npm ci --prefix client
 ```
 
-Create `config/default.json` (ignored by Git):
+Créez le fichier `config/default.json` (ignoré par Git) :
 
 ```json
 {
   "mongoURI": "mongodb://127.0.0.1:27017/codeurconnect_dev",
-  "jwtSecret": "replace-with-a-random-local-secret"
+  "jwtSecret": "a-remplacer-par-une-cle-locale-aleatoire"
 }
 ```
 
-Generate a local JWT key with `node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"`.
-Keep local configuration and credentials out of Git. An optional `githubToken`
-configuration value enables the GitHub repositories section of profiles.
+Générez une clé JWT locale avec `node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"`.
+Ne versionnez ni la configuration locale ni les identifiants dans Git. La valeur de
+configuration facultative `githubToken` permet d’activer la section des dépôts GitHub dans les profils.
 
-Start MongoDB before starting the application. With Docker, a local database can
-be created using a named volume:
+Démarrez MongoDB avant de lancer l’application. Avec Docker, vous pouvez créer
+une base locale en utilisant un volume nommé :
 
 ```sh
 docker run -d --name codeurconnect-mongo -p 127.0.0.1:27017:27017 \
   -v codeurconnect-mongo-data:/data/db mongo:7
 ```
 
-If that container already exists, use `docker start codeurconnect-mongo`.
-Do not replace an existing database or its volume.
+Si ce conteneur existe déjà, utilisez `docker start codeurconnect-mongo`.
+Ne remplacez pas une base de données existante ni son volume.
 
-## Development
+## Développement
 
 ```sh
 npm run dev
 ```
 
-The Express API runs on port 5000 and the Vite client runs on port 3000.
-Vite proxies `/api` requests to the local API. Node's built-in watch mode restarts
-Express after backend changes, and Vite reloads client changes.
-Use `npm run server` or `npm run client` to start either component separately.
+L’API Express utilise le port 5000 et le client Vite le port 3000.
+Vite transmet les requêtes `/api` à l’API locale. Le mode de surveillance intégré
+à Node redémarre Express après une modification du serveur, tandis que Vite recharge
+les modifications du client. Utilisez `npm run server` ou `npm run client`
+pour démarrer chaque composant séparément.
 
-The old `NODE_OPTIONS=--openssl-legacy-provider` setting is no longer needed.
+L’ancien paramètre `NODE_OPTIONS=--openssl-legacy-provider` n’est plus nécessaire.
 
 ## Production
 
@@ -62,47 +63,53 @@ npm run build
 NODE_ENV=production npm start
 ```
 
-The client builds into `client/build`. Express serves the compiled assets and
-supports direct navigation to client routes. `PORT` overrides the API port.
-The `heroku-postbuild` script installs the client from its lockfile and builds it.
-Supply production configuration through supported node-config environment
-configuration or an ignored `config/production.json`; never commit credentials.
+Le client est compilé dans `client/build`. Express sert les fichiers compilés et
+prend en charge l’accès direct aux routes du client. La variable `PORT` permet de
+modifier le port de l’API. Le script `heroku-postbuild` installe le client à partir
+de son fichier de verrouillage, puis le compile.
+Fournissez la configuration de production à l’aide des mécanismes de configuration
+par environnement de node-config ou d’un fichier `config/production.json` ignoré
+par Git. Ne versionnez jamais les identifiants.
 
-## Verification
+## Vérifications
 
-Build the client and keep MongoDB running before running tests:
+Compilez le client et assurez-vous que MongoDB fonctionne avant de lancer les tests :
 
 ```sh
 npm run build
 npm test
 ```
 
-The API tests run the actual production server against a uniquely named MongoDB
-database. They check production assets and deep links, validation, JWT
-registration/login, URL normalization, profiles, education/experience,
-posts, likes, comments and account deletion. Each run deletes only its own test
-database. `MONGO_TEST_URI` can specify a different MongoDB server; the tests always
-replace the database name with a unique test name and preserve URI options.
+Les tests de l’API exécutent le serveur en mode production avec une base MongoDB
+dont le nom est unique. Ils vérifient les fichiers de production, l’accès direct
+aux routes, la validation, l’inscription et la connexion avec JWT, la normalisation
+des URL, les profils, les formations et les expériences, les publications, les
+mentions « J’aime », les commentaires et la suppression de compte.
+Chaque exécution supprime uniquement sa propre base de test. La variable
+`MONGO_TEST_URI` permet de choisir un autre serveur MongoDB ; les tests remplacent
+toujours le nom de la base par un nom de test unique et conservent les options de l’URI.
 
-For real browser tests:
+Pour lancer les tests dans un navigateur réel :
 
 ```sh
 npx playwright install chromium
 npm run test:e2e
 ```
 
-To use an already installed Chromium instead of downloading one:
+Pour utiliser une installation existante de Chromium plutôt que d’en télécharger une :
 
 ```sh
 PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/chromium npm run test:e2e
 ```
 
-Browser tests use the production build and an isolated test database. They check
-public/private routing, registration, profile creation, posting/commenting,
-authentication persistence, logout and login. External fonts and avatars are
-blocked in tests so they do not require third-party network access.
+Les tests dans le navigateur utilisent la version compilée pour la production et
+une base de test isolée. Ils vérifient les routes publiques et privées,
+l’inscription, la création de profil, les publications et les commentaires,
+la persistance de l’authentification, la déconnexion et la connexion.
+Les polices et les avatars externes sont bloqués pendant les tests pour éviter
+de dépendre de services tiers.
 
-Check dependency health in both packages:
+Vérifiez les mises à jour disponibles et les vulnérabilités des dépendances du serveur et du client :
 
 ```sh
 npm outdated
@@ -111,21 +118,24 @@ npm audit
 npm audit --prefix client
 ```
 
-## Dependency migration
+## Migration des dépendances
 
-All direct dependencies were updated to their current stable releases. The
-client uses React 19, React Router 7, React Redux 9, Redux 5 and Vite 8.
-Deprecated Create React App and Redux DevTools packages were replaced.
-JSX files use the `.jsx` extension, React mounts through `createRoot`, and Redux
-Thunk uses its named export. Axios and prop-types are declared directly in the
-client rather than inherited from the server installation.
+Toutes les dépendances directes ont été mises à jour vers les versions stables
+disponibles lors de la migration. Le client utilise React 19, React Router 7,
+React Redux 9, Redux 5 et Vite 8. Les anciens paquets Create React App et
+Redux DevTools ont été remplacés. Les fichiers JSX utilisent l’extension `.jsx`,
+React est initialisé avec `createRoot` et Redux Thunk utilise son export nommé.
+Axios et prop-types sont déclarés directement dans le client plutôt que d’être
+résolus à partir de l’installation du serveur.
 
-The API uses Express 5 and Mongoose 9. MongoDB connection options removed by
-Mongoose were dropped, deleted APIs were replaced with `deleteOne` and
-`findOneAndDelete`, and the SPA fallback uses Express 5's named wildcard.
-The API begins listening after the database connects. Nodemon was replaced by
-Node's native watch mode to remove vulnerable transitive dependencies.
+L’API utilise Express 5 et Mongoose 9. Les options de connexion MongoDB devenues
+obsolètes ont été retirées, les méthodes supprimées ont été remplacées par
+`deleteOne` et `findOneAndDelete`, et la route de repli de l’application monopage
+utilise le paramètre générique nommé d’Express 5.
+L’API commence à écouter après la connexion à la base de données. Nodemon a été
+remplacé par le mode de surveillance natif de Node afin de supprimer des
+dépendances indirectes vulnérables.
 
 ## License
 
-MIT. Original author: Brad Traversy, [Traversy Media](https://www.traversymedia.com).
+MIT. Auteur d’origine : Brad Traversy, [Traversy Media](https://www.traversymedia.com).
