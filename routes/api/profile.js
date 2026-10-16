@@ -5,7 +5,7 @@ const router = express.Router();
 const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
 // bring in normalize to give us a proper url, regardless of what user entered
-const normalize = require('normalize-url');
+const { default: normalize } = require('normalize-url');
 const checkObjectId = require('../../middleware/checkObjectId');
 
 const Profile = require('../../models/Profile');
@@ -143,8 +143,8 @@ router.delete('/', auth, async (req, res) => {
     // Remove user
     await Promise.all([
       Post.deleteMany({ user: req.user.id }),
-      Profile.findOneAndRemove({ user: req.user.id }),
-      User.findOneAndRemove({ _id: req.user.id })
+      Profile.findOneAndDelete({ user: req.user.id }),
+      User.findOneAndDelete({ _id: req.user.id })
     ]);
 
     res.json({ msg: 'User deleted' });
