@@ -18,7 +18,7 @@ const Dashboard = ({
   }, [getCurrentProfile]);
 
   return (
-    <section className="container">
+    <section className="container dashboard-page">
       <h1 className="large text-primary">Tableau de bord</h1>
       <p className="lead">
         <i className="fas fa-user" /> Bienvenue {user && user.name}

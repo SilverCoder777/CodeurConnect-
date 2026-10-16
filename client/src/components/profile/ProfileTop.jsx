@@ -1,3 +1,4 @@
+import Avatar from '../layout/Avatar';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { formatProfileStatus } from '../../utils/profileStatus';
@@ -14,7 +15,7 @@ const ProfileTop = ({
 }) => {
   return (
     <div className="profile-top bg-primary p-2">
-      <img className="round-img my-1" src={avatar} alt="" />
+      <Avatar src={avatar} name={name} className="profile-avatar" />
       <h1 className="large">{name}</h1>
       <p className="lead">
         {formatProfileStatus(status)} {company ? <span> chez {company}</span> : null}

@@ -87,7 +87,7 @@ const ProfileForm = ({
   };
 
   return (
-    <section className="container">
+    <section className="container editor-card">
       <h1 className="large text-primary">
         {creatingProfile ? 'Créer votre profil' : 'Modifier votre profil'}
       </h1>

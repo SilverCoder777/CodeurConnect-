@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addPost } from '../../actions/post';
+import Avatar from '../layout/Avatar';
 
-const PostForm = ({ addPost }) => {
+const PostForm = ({ addPost, user }) => {
   const [text, setText] = useState('');
 
   return (
     <div className='post-form'>
-      <div className='bg-primary p'>
+      <div className='composer-heading'>
+        <Avatar src={user?.avatar} name={user?.name} />
         <h3>Exprimez-vous…</h3>
       </div>
       <form
@@ -24,6 +26,7 @@ const PostForm = ({ addPost }) => {
           cols='30'
           rows='5'
           placeholder='Rédiger une publication'
+          aria-label='Rédiger une publication'
           value={text}
           onChange={e => setText(e.target.value)}
           required
@@ -39,6 +42,6 @@ PostForm.propTypes = {
 };
 
 export default connect(
-  null,
+  (state) => ({ user: state.auth.user }),
   { addPost }
 )(PostForm);

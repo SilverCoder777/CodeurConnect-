@@ -25,25 +25,31 @@ const Login = ({ login, isAuthenticated }) => {
   }
 
   return (
-    <section className="container">
+    <section className="container auth-card">
       <h1 className="large text-primary">Connexion</h1>
       <p className="lead">
         <i className="fas fa-user" /> Connectez-vous à votre compte
       </p>
       <form className="form" onSubmit={onSubmit}>
         <div className="form-group">
+          <label htmlFor="login-email">Adresse e-mail</label>
           <input
             type="email"
             placeholder="Adresse e-mail"
+            id="login-email"
+            autoComplete="email"
             name="email"
             value={email}
             onChange={onChange}
           />
         </div>
         <div className="form-group">
+          <label htmlFor="login-password">Mot de passe</label>
           <input
             type="password"
             placeholder="Mot de passe"
+            id="login-password"
+            autoComplete="current-password"
             name="password"
             value={password}
             onChange={onChange}

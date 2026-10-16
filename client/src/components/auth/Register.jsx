@@ -32,25 +32,31 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
   }
 
   return (
-    <section className="container">
+    <section className="container auth-card">
       <h1 className="large text-primary">Inscription</h1>
       <p className="lead">
         <i className="fas fa-user" /> Créez votre compte
       </p>
       <form className="form" onSubmit={onSubmit}>
         <div className="form-group">
+          <label htmlFor="register-name">Nom complet</label>
           <input
             type="text"
             placeholder="Nom"
+            id="register-name"
+            autoComplete="name"
             name="name"
             value={name}
             onChange={onChange}
           />
         </div>
         <div className="form-group">
+          <label htmlFor="register-email">Adresse e-mail</label>
           <input
             type="email"
             placeholder="Adresse e-mail"
+            id="register-email"
+            autoComplete="email"
             name="email"
             value={email}
             onChange={onChange}
@@ -61,18 +67,24 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
           </small>
         </div>
         <div className="form-group">
+          <label htmlFor="register-password">Mot de passe</label>
           <input
             type="password"
             placeholder="Mot de passe"
+            id="register-password"
+            autoComplete="new-password"
             name="password"
             value={password}
             onChange={onChange}
           />
         </div>
         <div className="form-group">
+          <label htmlFor="register-password2">Confirmer le mot de passe</label>
           <input
             type="password"
             placeholder="Confirmer le mot de passe"
+            id="register-password2"
+            autoComplete="new-password"
             name="password2"
             value={password2}
             onChange={onChange}

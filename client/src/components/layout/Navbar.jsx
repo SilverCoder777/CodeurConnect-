@@ -1,66 +1,43 @@
-import React, { Fragment } from 'react';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useState } from 'react';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../actions/auth';
+import Avatar from './Avatar';
+import Icon from './Icon';
 
-const Navbar = ({ auth: { isAuthenticated }, logout }) => {
-  const authLinks = (
-    <ul>
-      <li>
-        <Link to="/profiles">Développeurs</Link>
-      </li>
-      <li>
-        <Link to="/posts">Publications</Link>
-      </li>
-      <li>
-        <Link to="/dashboard">
-          <i className="fas fa-user" />{' '}
-          <span className="hide-sm">Tableau de bord</span>
-        </Link>
-      </li>
-      <li>
-        <a onClick={logout} href="#!">
-          <i className="fas fa-sign-out-alt" />{' '}
-          <span className="hide-sm">Se déconnecter</span>
-        </a>
-      </li>
-    </ul>
-  );
-
-  const guestLinks = (
-    <ul>
-      <li>
-        <Link to="/profiles">Développeurs</Link>
-      </li>
-      <li>
-        <Link to="/register">S’inscrire</Link>
-      </li>
-      <li>
-        <Link to="/login">Se connecter</Link>
-      </li>
-    </ul>
-  );
-
+export default function Navbar() {
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
+  const [query, setQuery] = useState('');
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const search = (event) => {
+    event.preventDefault();
+    navigate(`/profiles${query.trim() ? `?q=${encodeURIComponent(query.trim())}` : ''}`);
+  };
   return (
-    <nav className="navbar bg-dark">
-      <h1>
-        <Link to="/">
-          <i className="fas fa-code" /> DevConnector
+    <header className="site-header">
+      <a className="skip-link" href="#main-content">Aller au contenu principal</a>
+      <nav className="navbar" aria-label="Navigation principale">
+        <Link to={isAuthenticated ? '/posts' : '/'} className="brand" aria-label="DevConnector — Accueil">
+          <span className="brand-mark"><Icon name="code" size={27} /></span>
+          <span className="brand-name">Dev<span>Connector</span></span>
         </Link>
-      </h1>
-      <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
-    </nav>
+        <form className="nav-search" role="search" onSubmit={search}>
+          <Icon name="search" size={18} />
+          <input type="search" aria-label="Rechercher des développeurs" placeholder="Rechercher" value={query} onChange={(event) => setQuery(event.target.value)} />
+        </form>
+        <ul className="nav-links">
+          {isAuthenticated && <li><NavLink to="/posts"><Icon name="home" /><span>Publications</span></NavLink></li>}
+          <li><NavLink to="/profiles"><Icon name="users" /><span>Développeurs</span></NavLink></li>
+          {isAuthenticated ? <>
+            <li><NavLink to="/dashboard" aria-label="Tableau de bord"><Avatar src={user?.avatar} name={user?.name} /><span>Vous</span></NavLink></li>
+            <li className="nav-divider"><button type="button" onClick={() => dispatch(logout())}><Icon name="logout" /><span>Se déconnecter</span></button></li>
+          </> : <>
+            <li><NavLink className="nav-register" to="/register">S’inscrire</NavLink></li>
+            <li><NavLink className="nav-login" to="/login">Se connecter</NavLink></li>
+          </>}
+        </ul>
+      </nav>
+    </header>
   );
-};
-
-Navbar.propTypes = {
-  logout: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
-};
-
-const mapStateToProps = (state) => ({
-  auth: state.auth
-});
-
-export default connect(mapStateToProps, { logout })(Navbar);
+}

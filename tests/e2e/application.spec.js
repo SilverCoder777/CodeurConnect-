@@ -52,6 +52,10 @@ test('React, Redux and routing support registration, profiles, posts and login',
   await expect(page.getByText('Profil créé', { exact: true })).toBeVisible();
   await page.getByRole('link', { name: 'Développeurs', exact: true }).click();
   await expect(page.getByText('Développeur', { exact: true })).toBeVisible();
+  const search = page.getByRole('searchbox', { name: 'Rechercher des développeurs' });
+  await search.fill('réact');
+  await search.press('Enter');
+  await expect(page.getByRole('status').filter({ hasText: 'résultat' })).toHaveText('1 résultat pour « réact »');
   await page.getByRole('link', { name: 'Voir le profil' }).click();
   await expect(page.getByText('Aucune expérience renseignée')).toBeVisible();
   await expect(page.getByText('Aucune formation renseignée')).toBeVisible();
@@ -62,6 +66,10 @@ test('React, Redux and routing support registration, profiles, posts and login',
   await expect(page.getByText('Browser dependency upgrade', { exact: true })).toBeVisible();
   await expect(page.locator('.post-date').first()).toHaveText(/Publié le \d{2}\/\d{2}\/\d{4}/);
   await expect(page.getByText('Publication créée', { exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'J’aime cette publication', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'Retirer la mention J’aime', exact: true })).toHaveAttribute('aria-pressed', 'true');
+  await page.getByRole('button', { name: 'Retirer la mention J’aime', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'J’aime cette publication', exact: true })).toHaveAttribute('aria-pressed', 'false');
   await page.getByRole('link', { name: 'Discussion' }).click();
   await page.getByPlaceholder('Commenter la publication').fill('Browser comment');
   await page.getByRole('button', { name: 'Envoyer', exact: true }).click();
@@ -69,7 +77,7 @@ test('React, Redux and routing support registration, profiles, posts and login',
   await page.reload();
   await expect(page.getByText('Browser comment', { exact: true })).toBeVisible();
 
-  await page.getByRole('link', { name: 'Se déconnecter' }).click();
+  await page.getByRole('button', { name: 'Se déconnecter' }).click();
   await expect.poll(() => new URL(page.url()).pathname).toBe('/login');
   await page.getByPlaceholder('Adresse e-mail').fill(email);
   await page.getByPlaceholder('Mot de passe', { exact: true }).fill(password);
@@ -120,4 +128,21 @@ test('validation messages are French even with an English browser', async ({ pag
   await page.getByPlaceholder('Mot de passe', { exact: true }).fill('incorrect-password');
   await page.getByRole('button', { name: 'Se connecter', exact: true }).click();
   await expect(page.getByText('Adresse e-mail ou mot de passe incorrect')).toBeVisible();
+});
+
+test('mobile navigation, search and forms remain usable without horizontal scrolling', async ({ page, app }) => {
+  for (const width of [390, 320]) {
+    await page.setViewportSize({ width, height: 844 });
+    for (const path of ['/', '/profiles', '/login', '/register']) {
+      await page.goto(app.url + path);
+      await expect(page.locator('main')).toBeVisible();
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+    }
+  }
+  const search = page.getByRole('searchbox', { name: 'Rechercher des développeurs' });
+  await search.fill('profil-inexistant');
+  await search.press('Enter');
+  await expect(page.getByRole('heading', { name: 'Développeurs', exact: true })).toBeVisible();
+  await expect(page.getByText('Aucun profil trouvé…')).toBeVisible();
+  await expect(page.getByRole('status').filter({ hasText: 'résultat' })).toHaveText('0 résultat pour « profil-inexistant »');
 });

@@ -23,7 +23,7 @@ const AddEducation = ({ addEducation }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   return (
-    <section className="container">
+    <section className="container editor-card">
       <h1 className="large text-primary">Ajouter une formation</h1>
       <p className="lead">
         <i className="fas fa-code-branch" /> Présentez votre parcours scolaire
