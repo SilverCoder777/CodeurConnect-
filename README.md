@@ -69,6 +69,24 @@ dans les raccourcis de votre espace. La page `/snake` est réservée aux membres
 - Choisissez une vitesse avant de jouer ou pendant la pause.
 - Votre record est conservé dans le navigateur, sur cet appareil, pour votre compte.
 
+## Tetris
+
+Une fois connecté, ouvrez **Tetris** dans la navigation ou **Une partie de Tetris**
+dans les raccourcis. La page `/tetris` est réservée aux membres connectés.
+
+- Cliquez sur **Commencer** ou activez le plateau et appuyez sur **Entrée**.
+- Les flèches **gauche/droite** déplacent la pièce ; **haut** la fait tourner et
+  **bas** accélère sa descente. **Espace** la fait tomber immédiatement.
+- **P** permet de mettre en pause ou de reprendre ; **Échap** met en pause.
+  Les boutons à l’écran offrent les mêmes commandes sur mobile.
+- Les lignes complètes disparaissent. Effacer 1, 2, 3 ou 4 lignes rapporte
+  respectivement 100, 300, 500 ou 800 points, multipliés par le niveau.
+  La descente manuelle rapporte 1 point par case et la chute rapide 2 points par case.
+- Le niveau augmente toutes les 10 lignes et les pièces tombent plus vite.
+  Un aperçu montre la prochaine pièce et un contour indique le point d’atterrissage.
+- Le jeu se met en pause lorsque vous quittez l’onglet ou la fenêtre. Le record
+  est enregistré dans le navigateur, sur cet appareil, pour votre compte.
+
 ## Production
 
 ```sh
@@ -104,6 +122,8 @@ toujours le nom de la base par un nom de test unique et conservent les options d
 
 La commande `npm test` vérifie également le moteur du jeu du serpent : déplacements,
 changements de direction, collisions, croissance, nourriture et victoire.
+Elle vérifie aussi le moteur Tetris : tirage des pièces, déplacements, rotations,
+collisions, chute, suppression des lignes, calcul des points et progression des niveaux.
 
 Pour lancer les tests dans un navigateur réel :
 

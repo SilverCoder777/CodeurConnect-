@@ -31,6 +31,7 @@ export default function Navbar() {
           <li><NavLink to="/profiles"><Icon name="users" /><span>Développeurs</span></NavLink></li>
           {isAuthenticated ? <>
             <li><NavLink to="/snake"><Icon name="game" /><span>Serpent</span></NavLink></li>
+            <li><NavLink to="/tetris"><Icon name="blocks" /><span>Tetris</span></NavLink></li>
             <li><NavLink to="/dashboard" aria-label="Tableau de bord"><Avatar src={user?.avatar} name={user?.name} /><span>Vous</span></NavLink></li>
             <li className="nav-divider"><button type="button" onClick={() => dispatch(logout())}><Icon name="logout" /><span>Se déconnecter</span></button></li>
           </> : <>

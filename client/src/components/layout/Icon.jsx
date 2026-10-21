@@ -1,4 +1,7 @@
 const paths = {
+  blocks: 'M3 3h7v7H3Zm0 11h7v7H3Zm11 0h7v7h-7Zm0-11h7v7h-7Z',
+  rotate: 'M21 3v6h-6m6 0a9 9 0 1 0-1 9',
+  drop: 'M12 3v13m-5-5 5 5 5-5M4 21h16',
   game: 'M6 8h12a4 4 0 0 1 4 4v5a2 2 0 0 1-3 2l-3-3H8l-3 3a2 2 0 0 1-3-2v-5a4 4 0 0 1 4-4Zm0 3v4m-2-2h4m8-1h.01M19 14h.01',
   code: 'm8 8-4 4 4 4m8-8 4 4-4 4m-3-11-2 14',
   search: 'm21 21-5-5M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z',

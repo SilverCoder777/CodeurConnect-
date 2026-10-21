@@ -24,6 +24,7 @@ export default function Workspace({ children }) {
           <Link to="/profiles"><Icon name="users" size={19} /> Mon réseau</Link>
           <Link to="/dashboard"><Icon name="briefcase" size={19} /> Mon parcours</Link>
           <Link to="/snake"><Icon name="game" size={19} /> Une pause jeu</Link>
+          <Link to="/tetris"><Icon name="blocks" size={19} /> Une partie de Tetris</Link>
         </nav>
       </aside>}
       <div className="workspace-content">{children}</div>

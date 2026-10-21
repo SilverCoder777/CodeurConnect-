@@ -15,6 +15,7 @@ import Profile from './components/profile/Profile';
 import Posts from './components/posts/Posts';
 import Post from './components/post/Post';
 import SnakeGame from './components/games/SnakeGame';
+import TetrisGame from './components/games/TetrisGame';
 import NotFound from './components/layout/NotFound';
 import PrivateRoute from './components/routing/PrivateRoute';
 import { LOGOUT } from './actions/types';
@@ -79,6 +80,7 @@ const App = () => {
           <Route path="posts" element={<PrivateRoute component={Posts} />} />
           <Route path="posts/:id" element={<PrivateRoute component={Post} />} />
           <Route path="snake" element={<PrivateRoute component={SnakeGame} />} />
+          <Route path="tetris" element={<PrivateRoute component={TetrisGame} />} />
           <Route path="/*" element={<NotFound />} />
         </Routes>
         </Workspace>

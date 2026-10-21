@@ -10,7 +10,7 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "heroku-postbuild": "npm ci --prefix client --include=dev && npm run build",
     "build": "npm run build --prefix client",
-    "test": "node --test tests/api.test.js tests/snake.test.js",
+    "test": "node --test tests/api.test.js tests/snake.test.js tests/tetris.test.js",
     "test:e2e": "playwright test"
   },
   "author": "Brad Traversy",
